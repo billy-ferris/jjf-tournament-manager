@@ -1,9 +1,23 @@
 import { type GetServerSidePropsContext, type NextPage } from "next";
 import Head from "next/head";
 import { signOut, useSession } from "next-auth/react";
+import { z } from "zod";
 
 import { api } from "~/utils/api";
 import { getServerAuthSession } from "~/server/auth";
+import { ControlledInput, Form } from "~/components/Form";
+
+export interface PickupDetailsData {
+  data: {
+    displayName: string;
+  };
+}
+
+const schema = z.object({
+  pickupName: z
+    .string({ required_error: "A name is required." })
+    .min(1, "A name is required.")
+});
 
 const Onboarding: NextPage = () => {
   const { data: sessionData } = useSession();
@@ -20,7 +34,8 @@ const Onboarding: NextPage = () => {
         <meta name="description" content="Onboarding" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-[#2e026d] to-[#15162c]">
+      <main
+        className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-[#2e026d] to-[#15162c]">
         <div className="container flex flex-col items-center justify-center gap-12 px-4 py-16 ">
           <div className="flex flex-col items-center gap-2">
             <p className="text-center text-2xl text-white">
@@ -38,6 +53,33 @@ const Onboarding: NextPage = () => {
               Sign out
             </button>
           </div>
+          <Form<PickupDetailsData["data"], typeof schema>
+            id="oboarding-form"
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-ignore
+            onSubmit={(data, e) => {
+              e?.preventDefault();
+              console.log({ data });
+            }}
+            options={{
+              defaultValues: {
+                displayName: ""
+              }
+            }}
+            className="w-full"
+            schema={schema}
+          >
+            {({ control }) => (
+              <div className="grid grid-flow-row auto-rows-max gap-y-4 py-6">
+                <ControlledInput
+                  type="text"
+                  label="Display name"
+                  placeholder="Jane Doe"
+                  controllerProps={{ name: "displayName", control }}
+                />
+              </div>
+            )}
+          </Form>
         </div>
       </main>
     </>
