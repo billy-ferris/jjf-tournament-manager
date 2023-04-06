@@ -40,7 +40,8 @@ export const Form = <
   return (
     <form
       className={className}
-      onSubmit={void methods.handleSubmit(onSubmit)}
+      // eslint-disable-next-line @typescript-eslint/no-misused-promises
+      onSubmit={methods.handleSubmit(onSubmit)}
       id={id}
     >
       {children(methods)}

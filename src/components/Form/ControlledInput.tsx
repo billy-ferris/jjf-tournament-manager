@@ -16,6 +16,7 @@ interface ControlledInputProps<
   label: string;
   placeholder: string;
   controllerProps: UseControllerProps<TFieldValues, TName>;
+  disabled?: boolean;
 }
 
 export const ControlledInput = <
@@ -26,6 +27,7 @@ export const ControlledInput = <
   label,
   placeholder,
   controllerProps: { control, name, shouldUnregister },
+  disabled = false,
 }: ControlledInputProps<TFieldValues, TName>) => {
   const {
     field: { onChange, value, ref },
@@ -39,21 +41,22 @@ export const ControlledInput = <
   return (
     <InputWrapper label={label} error={error}>
       <input
-        type={type}
-        ref={ref}
-        value={value}
-        onChange={onChange}
-        name={name}
-        id={name}
+        aria-describedby={`${name}-error`}
+        aria-invalid={!!error}
         className={classNames(
           !error
             ? "border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
             : "border-red-300 pr-10 text-red-900 placeholder-red-300 focus:border-red-500 focus:outline-none focus:ring-red-500",
           "block w-full rounded-md sm:text-sm"
         )}
+        disabled={disabled}
+        id={name}
+        name={name}
+        onChange={onChange}
         placeholder={placeholder}
-        aria-invalid={!!error}
-        aria-describedby={`${name}-error`}
+        ref={ref}
+        type={type}
+        value={value}
       />
     </InputWrapper>
   );
