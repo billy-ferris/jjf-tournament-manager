@@ -14,7 +14,7 @@ interface ControlledInputProps<
 > {
   type: string;
   label: string;
-  placeholder: string;
+  placeholder?: string;
   controllerProps: UseControllerProps<TFieldValues, TName>;
   disabled?: boolean;
 }

@@ -5,6 +5,7 @@ import { z } from "zod";
 
 import { getServerAuthSession } from "~/server/auth";
 import { ControlledInput, Form } from "~/components/Form";
+import { useRouter } from "next/router";
 
 export interface PickupDetailsData {
   data: {
@@ -20,6 +21,7 @@ const schema = z.object({
 
 const Onboarding: NextPage = () => {
   const { data: sessionData } = useSession();
+  const router = useRouter();
 
   return (
     <>
@@ -40,7 +42,10 @@ const Onboarding: NextPage = () => {
           </div>
           <Form<PickupDetailsData["data"], typeof schema>
             id="oboarding-form"
-            onSubmit={(values) => console.log({ values })}
+            onSubmit={(values) => {
+              console.log({ values });
+              void router.push("/");
+            }}
             options={{
               defaultValues: {
                 displayName: "",
@@ -57,8 +62,8 @@ const Onboarding: NextPage = () => {
                 <ControlledInput
                   type="text"
                   label="Display name"
-                  placeholder="Jane Doe"
                   controllerProps={{ name: "displayName", control }}
+                  disabled
                 />
                 <button
                   type="submit"
