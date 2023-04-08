@@ -15,7 +15,7 @@ datasource db {
 
 // Necessary for Next auth
 model Account {
-  id                String  @id @default(cuid())
+  id                String  @id @default(uuid())
   userId            String
   type              String
   provider          String
@@ -27,27 +27,19 @@ model Account {
   scope             String?
   id_token          String? @map("idToken") @db.Text
   session_state     String? @map("sessionState")
-  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerAccountId])
 }
 
 model Session {
-  id           String   @id @default(cuid())
+  id           String   @id @default(uuid())
   sessionToken String   @unique
   userId       String
   expires      DateTime
-  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-}
 
-model User {
-  id            String    @id @default(cuid())
-  name          String?
-  email         String?   @unique
-  emailVerified DateTime?
-  image         String?
-  accounts      Account[]
-  sessions      Session[]
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model VerificationToken {
@@ -56,4 +48,27 @@ model VerificationToken {
   expires    DateTime
 
   @@unique([identifier, token])
+}
+
+model User {
+  id            String    @id @default(uuid())
+  name          String?
+  email         String?   @unique
+  emailVerified DateTime?
+  image         String?
+  teamId        String?
+
+  accounts Account[]
+  sessions Session[]
+  team     Team?     @relation("members", fields: [teamId], references: [id])
+  Team     Team[]
+}
+
+model Team {
+  id        String @id @default(uuid())
+  name      String
+  captainId String
+
+  captain User   @relation(fields: [captainId], references: [id])
+  members User[] @relation("members")
 }
