@@ -5,29 +5,31 @@ import {
   type UseControllerProps,
 } from "react-hook-form";
 
-import { classNames } from "~/utils/classNames";
 import { InputWrapper } from "./InputWrapper";
+import { TextInput } from "flowbite-react";
 
 interface ControlledInputProps<
   TFieldValues extends FieldValues = FieldValues,
   TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>
 > {
-  type: string;
-  label: string;
-  placeholder?: string;
   controllerProps: UseControllerProps<TFieldValues, TName>;
   disabled?: boolean;
+  helperText?: string;
+  label: string;
+  placeholder?: string;
+  type: string;
 }
 
 export const ControlledInput = <
   TFieldValues extends FieldValues = FieldValues,
   TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>
 >({
-  type,
-  label,
-  placeholder,
   controllerProps: { control, name, shouldUnregister },
   disabled = false,
+  helperText,
+  label,
+  placeholder,
+  type,
 }: ControlledInputProps<TFieldValues, TName>) => {
   const {
     field: { onChange, value, ref },
@@ -39,16 +41,11 @@ export const ControlledInput = <
   });
 
   return (
-    <InputWrapper label={label} error={error}>
-      <input
+    <InputWrapper htmlFor={name} label={label} error={error}>
+      <TextInput
         aria-describedby={`${name}-error`}
         aria-invalid={!!error}
-        className={classNames(
-          !error
-            ? "border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
-            : "border-red-300 pr-10 text-red-900 placeholder-red-300 focus:border-red-500 focus:outline-none focus:ring-red-500",
-          "block w-full rounded-md sm:text-sm"
-        )}
+        color={!!error ? "failure" : "gray"}
         disabled={disabled}
         id={name}
         name={name}
@@ -57,6 +54,7 @@ export const ControlledInput = <
         ref={ref}
         type={type}
         value={value}
+        helperText={helperText}
       />
     </InputWrapper>
   );

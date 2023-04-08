@@ -1,22 +1,36 @@
 import { type GetServerSidePropsContext, type NextPage } from "next";
 import Head from "next/head";
-import { signOut, useSession } from "next-auth/react";
+import { useSession } from "next-auth/react";
 import { z } from "zod";
+import { Avatar, Button } from "flowbite-react";
+import { useRouter } from "next/router";
 
 import { getServerAuthSession } from "~/server/auth";
 import { ControlledInput, Form } from "~/components/Form";
-import { useRouter } from "next/router";
 
-export interface PickupDetailsData {
+export interface UserOnboardingData {
   data: {
-    displayName: string;
+    name: string;
+    email: string;
+    phone: string;
   };
 }
 
+const phoneRegExp =
+  /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
+
 const schema = z.object({
-  displayName: z
+  name: z
     .string({ required_error: "A name is required." })
     .min(1, "A name is required."),
+  email: z
+    .string()
+    .min(1, "An email is required.")
+    .email("The provided email is invalid."),
+  phone: z
+    .string()
+    .min(1, "A phone number is required.")
+    .regex(phoneRegExp, "The provided phone number is invalid."),
 });
 
 const Onboarding: NextPage = () => {
@@ -30,53 +44,69 @@ const Onboarding: NextPage = () => {
         <meta name="description" content="Onboarding" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-[#2e026d] to-[#15162c]">
-        <div className="container-sm flex min-w-[380px] flex-col items-center justify-center gap-12 px-4 py-16 ">
-          <div className="flex flex-col items-center gap-2">
-            <button
-              className="rounded-full bg-white/10 px-10 py-3 font-semibold text-white no-underline transition hover:bg-white/20"
-              onClick={() => void signOut()}
-            >
-              Sign out
-            </button>
-          </div>
-          <Form<PickupDetailsData["data"], typeof schema>
-            id="oboarding-form"
-            onSubmit={(values) => {
-              console.log({ values });
-              void router.push("/");
-            }}
-            options={{
-              defaultValues: {
-                displayName: "",
-              },
-              values: {
-                displayName: sessionData?.user?.name || "",
-              },
-            }}
-            className="w-full"
-            schema={schema}
-          >
-            {({ control }) => (
-              <div className="grid grid-flow-row auto-rows-max gap-y-4 py-6">
-                <ControlledInput
-                  type="text"
-                  label="Display name"
-                  controllerProps={{ name: "displayName", control }}
-                  disabled
-                />
-                <button
-                  type="submit"
-                  form="oboarding-form"
-                  className="flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700"
-                >
-                  Submit
-                </button>
-              </div>
-            )}
-          </Form>
+      <div className="container-sm flex min-w-[380px] flex-col justify-center gap-6 px-4 py-16">
+        {/* TODO: Add placeholder image as fallback */}
+        <Avatar
+          img={sessionData?.user?.image || "placeholder"}
+          size="lg"
+          rounded
+        />
+        <div className="text-center">
+          <h1 className="pb-2 text-xl font-medium leading-tight text-gray-900 dark:text-white">
+            Thanks for joining!
+          </h1>
+          <p className="text-base font-normal text-gray-700 dark:text-gray-300">
+            Lorem ipsum dolor sit amet, consectetur adip iscing elit, sed do
+            eiusmod tempor.
+          </p>
         </div>
-      </main>
+        <Form<UserOnboardingData["data"], typeof schema>
+          className="w-full"
+          id="oboarding-form"
+          onSubmit={(values) => {
+            console.log({ values });
+            void router.push("/");
+          }}
+          options={{
+            defaultValues: {
+              name: "",
+              email: "",
+              phone: "",
+            },
+            values: {
+              name: sessionData?.user?.name || "",
+              email: sessionData?.user?.email || "",
+              phone: "",
+            },
+          }}
+          schema={schema}
+        >
+          {({ control }) => (
+            <div className="grid grid-flow-row auto-rows-max gap-y-6">
+              <ControlledInput
+                controllerProps={{ name: "name", control }}
+                disabled
+                label="Display name"
+                type="text"
+              />
+              <ControlledInput
+                controllerProps={{ name: "email", control }}
+                disabled
+                label="Email"
+                type="email"
+              />
+              <ControlledInput
+                controllerProps={{ name: "phone", control }}
+                helperText="Something about needing to contact. See our Privacy Policy."
+                label="Phone"
+                placeholder="(123) 456-7890"
+                type="text"
+              />
+              <Button type="submit">Looks good, continue!</Button>
+            </div>
+          )}
+        </Form>
+      </div>
     </>
   );
 };

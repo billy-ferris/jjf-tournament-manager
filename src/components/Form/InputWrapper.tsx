@@ -1,42 +1,36 @@
 import { type FieldError } from "react-hook-form";
 import { ExclamationCircleIcon } from "@heroicons/react/24/solid";
-
-import { classNames } from "~/utils/classNames";
+import { Label } from "flowbite-react";
 
 type InputWrapperProps = {
-  label: string;
-  className?: string;
   children: React.ReactNode;
+  className?: string;
   error?: FieldError | undefined;
+  htmlFor: string;
+  label: string;
 };
 
 export const InputWrapper = ({
-  label,
+  children,
   className = "",
   error,
-  children,
+  htmlFor,
+  label,
 }: InputWrapperProps) => (
   <div>
-    <label
-      className={classNames(
-        className,
-        "block text-sm font-medium text-gray-700"
-      )}
-    >
-      {label}
-      <div className="relative mt-1">
-        {children}
+    <Label className={className} htmlFor={htmlFor} value={label} />
+    <div className="relative mt-1">
+      {children}
 
-        {!!error && (
-          <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
-            <ExclamationCircleIcon
-              className="h-5 w-5 text-red-500"
-              aria-hidden={error ? "false" : "true"}
-            />
-          </div>
-        )}
-      </div>
-    </label>
+      {!!error && (
+        <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
+          <ExclamationCircleIcon
+            className="h-5 w-5 text-red-500"
+            aria-hidden={error ? "false" : "true"}
+          />
+        </div>
+      )}
+    </div>
     {error?.message && (
       <p
         aria-label={error.message}
