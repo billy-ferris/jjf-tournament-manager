@@ -4,6 +4,6 @@
     (!("theme" in localStorage) &&
       window.matchMedia("(prefers-color-scheme: dark)").matches);
   if (isDarkMode) {
-    document.querySelector("html").classList.add("dark");
+    document.querySelector(".js-theme").classList.add("dark");
   }
 })();
