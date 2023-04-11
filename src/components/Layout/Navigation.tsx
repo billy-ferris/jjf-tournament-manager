@@ -5,6 +5,7 @@ import Image from "next/image";
 import { MoonIcon, SunIcon } from "@heroicons/react/24/solid";
 
 import { useTheme } from "~/lib/theme";
+import { Avatar } from "~/components/Avatar";
 
 export const Navigation: FC = () => {
   const { data: sessionData, status } = useSession();
@@ -28,19 +29,11 @@ export const Navigation: FC = () => {
       <div className="flex items-center gap-x-4 md:order-2">
         {sessionData?.user && !isLoading && (
           <>
-            {/* TODO: Add placeholder as fallback */}
             <Dropdown
               arrowIcon={false}
               inline={true}
               label={
-                <Image
-                  alt="User settings"
-                  className="rounded-full"
-                  referrerPolicy="no-referrer"
-                  src={sessionData.user.image || ""}
-                  height={32}
-                  width={32}
-                />
+                <Avatar img={sessionData.user.image || undefined} size="sm" />
               }
             >
               <Dropdown.Header>

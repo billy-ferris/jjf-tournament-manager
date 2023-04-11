@@ -75,7 +75,6 @@ export interface TextInputProps
   color?: TextInputColors;
 }
 
-/* eslint @typescript-eslint/restrict-template-expressions: "off" */
 export const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
   (
     {

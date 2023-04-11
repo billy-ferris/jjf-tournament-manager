@@ -2,13 +2,13 @@ import { type GetServerSidePropsContext, type NextPage } from "next";
 import Head from "next/head";
 import { useSession } from "next-auth/react";
 import { z } from "zod";
-import { Avatar } from "flowbite-react";
 import { useRouter } from "next/router";
 
 import { getServerAuthSession } from "~/server/auth";
 import { ControlledInput, Form } from "~/components/Form";
 import { phoneRegExp } from "~/utils/phoneRegExp";
 import { Button } from "~/components/Button";
+import { Avatar } from "~/components/Avatar";
 
 export interface UserOnboardingData {
   data: {
@@ -44,12 +44,7 @@ const Onboarding: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <div className="container-sm flex min-w-[380px] flex-col justify-center gap-6 px-4 py-16">
-        {/* TODO: Add placeholder image as fallback */}
-        <Avatar
-          img={sessionData?.user?.image || "placeholder"}
-          size="lg"
-          rounded
-        />
+        <Avatar img={sessionData?.user?.image || undefined} size="lg" />
         <div className="text-center">
           <h1 className="pb-2 text-xl font-medium leading-tight text-gray-900 dark:text-white">
             Thanks for joining!

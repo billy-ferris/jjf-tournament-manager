@@ -38,7 +38,6 @@ export interface ButtonProps
   size?: ButtonSizes;
 }
 
-/* eslint @typescript-eslint/restrict-template-expressions: "off" */
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   (
     { children, className, disabled = false, fullSized, size = "md", ...props },
