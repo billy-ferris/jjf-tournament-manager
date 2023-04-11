@@ -1,15 +1,20 @@
 import { type Team } from "@prisma/client";
+import { z } from "zod";
 
 import {
   createTRPCRouter,
   protectedProcedure,
   publicProcedure,
 } from "~/server/api/trpc";
-import { z } from "zod";
 
 export const teamsRouter = createTRPCRouter({
   create: protectedProcedure
-    .input(z.object({ name: z.string(), captainId: z.string().uuid() }))
+    .input(
+      z.object({
+        name: z.string().min(1),
+        captainId: z.string().uuid(),
+      })
+    )
     .query(
       async ({ ctx, input }): Promise<Team> =>
         await ctx.prisma.team.create({

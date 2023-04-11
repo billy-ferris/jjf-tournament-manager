@@ -57,6 +57,7 @@ model User {
   emailVerified DateTime?
   image         String?
   phone         String?
+  isOnboarded   Boolean?
   teamId        String?
 
   accounts Account[]
@@ -68,7 +69,7 @@ model User {
 model Team {
   id        String @id @default(uuid())
   name      String
-  captainId String
+  captainId String @unique
 
   captain User   @relation(fields: [captainId], references: [id])
   members User[] @relation("members")
