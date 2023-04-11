@@ -1,5 +1,18 @@
-import { createContext, type FC, type ReactNode, useState } from "react";
-import { type Theme, type ThemeContextProps } from "./types";
+import {
+  createContext,
+  type Dispatch,
+  type FC,
+  type ReactNode,
+  type SetStateAction,
+  useState,
+} from "react";
+
+export type Theme = "dark" | "light";
+
+export type ThemeContextProps = {
+  theme: Theme;
+  setTheme: Dispatch<SetStateAction<Theme>>;
+};
 
 export const ThemeContext = createContext<Partial<ThemeContextProps>>({});
 

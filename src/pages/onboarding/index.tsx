@@ -2,12 +2,13 @@ import { type GetServerSidePropsContext, type NextPage } from "next";
 import Head from "next/head";
 import { useSession } from "next-auth/react";
 import { z } from "zod";
-import { Avatar, Button } from "flowbite-react";
+import { Avatar } from "flowbite-react";
 import { useRouter } from "next/router";
 
 import { getServerAuthSession } from "~/server/auth";
 import { ControlledInput, Form } from "~/components/Form";
 import { phoneRegExp } from "~/utils/phoneRegExp";
+import { Button } from "~/components/Button";
 
 export interface UserOnboardingData {
   data: {
