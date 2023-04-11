@@ -1,7 +1,7 @@
 import { type FC, type ReactNode, useEffect } from "react";
 
 import { Navigation } from "./Navigation";
-import { useTheme } from "~/libs/theme";
+import { useTheme } from "~/lib/theme";
 import { classNames } from "~/utils/classNames";
 
 export const Layout: FC<{ children: ReactNode }> = ({ children }) => {

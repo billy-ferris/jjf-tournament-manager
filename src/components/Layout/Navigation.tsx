@@ -4,7 +4,7 @@ import { signOut, useSession } from "next-auth/react";
 import Image from "next/image";
 import { MoonIcon, SunIcon } from "@heroicons/react/24/solid";
 
-import { useTheme } from "~/libs/theme";
+import { useTheme } from "~/lib/theme";
 
 export const Navigation: FC = () => {
   const { data: sessionData, status } = useSession();
