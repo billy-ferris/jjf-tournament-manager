@@ -1,7 +1,9 @@
-import classNames from "classnames";
 import { forwardRef, type ComponentProps, type ReactNode } from "react";
+import classNames from "classnames";
 
-export interface ButtonTheme {
+type ButtonSizes = "xs" | "sm" | "md" | "lg" | "xl";
+
+interface ButtonTheme {
   base: string;
   fullSized: string;
   colors: Record<"default", string>;
@@ -12,7 +14,7 @@ export interface ButtonTheme {
 const theme: ButtonTheme = {
   base: "group flex h-min items-center justify-center p-0.5 text-center font-medium focus:z-10 rounded-lg",
   fullSized: "w-full",
-  // TODO: add colors/variantss
+  // TODO: add colors/variants
   colors: {
     default:
       "text-white bg-blue-700 border border-transparent hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 disabled:hover:bg-blue-700 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 dark:disabled:hover:bg-blue-600",
@@ -27,8 +29,6 @@ const theme: ButtonTheme = {
   },
 };
 
-type ButtonSizes = "xs" | "sm" | "md" | "lg" | "xl";
-
 export interface ButtonProps
   extends Omit<ComponentProps<"button">, "color" | "ref"> {
   fullSized?: boolean;
@@ -38,32 +38,28 @@ export interface ButtonProps
   size?: ButtonSizes;
 }
 
+/* eslint @typescript-eslint/restrict-template-expressions: "off" */
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   (
     { children, className, disabled = false, fullSized, size = "md", ...props },
     ref
-  ) => {
-    const componentProps = props as object;
-
-    /* eslint @typescript-eslint/restrict-template-expressions: "off" */
-    return (
-      <button
-        disabled={disabled}
-        className={classNames(`
-          ${disabled && theme.disabled}
-          ${fullSized && theme.fullSized}
-          ${theme.size[size]}
-          ${theme.base}
-          ${theme.colors.default}
-          ${className}
-        `)}
-        ref={ref as never}
-        {...componentProps}
-      >
-        {children}
-      </button>
-    );
-  }
+  ) => (
+    <button
+      disabled={disabled}
+      className={classNames(
+        disabled && theme.disabled,
+        fullSized && theme.fullSized,
+        theme.size[size],
+        theme.base,
+        theme.colors.default,
+        className
+      )}
+      ref={ref as never}
+      {...props}
+    >
+      {children}
+    </button>
+  )
 );
 
 Button.displayName = "Button";

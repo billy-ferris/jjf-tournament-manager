@@ -1,11 +1,15 @@
+import { type ReactNode } from "react";
 import { type FieldError } from "react-hook-form";
 import { ExclamationCircleIcon } from "@heroicons/react/24/solid";
-import { Label } from "flowbite-react";
+
+import { HelperText } from "./HelperText";
+import { Label } from "./Label";
 
 type InputWrapperProps = {
-  children: React.ReactNode;
+  children: ReactNode;
   className?: string;
   error?: FieldError | undefined;
+  helperText?: ReactNode;
   htmlFor: string;
   label: string;
 };
@@ -14,6 +18,7 @@ export const InputWrapper = ({
   children,
   className = "",
   error,
+  helperText,
   htmlFor,
   label,
 }: InputWrapperProps) => (
@@ -31,14 +36,11 @@ export const InputWrapper = ({
         </div>
       )}
     </div>
+    {helperText && <HelperText color="default">{helperText}</HelperText>}
     {error?.message && (
-      <p
-        aria-label={error.message}
-        className="mt-2 text-sm text-red-600"
-        role="alert"
-      >
+      <HelperText color="failure" aria-label={error.message}>
         {error.message}
-      </p>
+      </HelperText>
     )}
   </div>
 );

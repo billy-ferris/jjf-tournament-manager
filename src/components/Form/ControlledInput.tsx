@@ -6,7 +6,7 @@ import {
 } from "react-hook-form";
 
 import { InputWrapper } from "./InputWrapper";
-import { TextInput } from "flowbite-react";
+import { TextInput } from "./TextInput";
 
 interface ControlledInputProps<
   TFieldValues extends FieldValues = FieldValues,
@@ -17,6 +17,7 @@ interface ControlledInputProps<
   helperText?: string;
   label: string;
   placeholder?: string;
+  required?: boolean;
   type: string;
 }
 
@@ -29,6 +30,7 @@ export const ControlledInput = <
   helperText,
   label,
   placeholder,
+  required,
   type,
 }: ControlledInputProps<TFieldValues, TName>) => {
   const {
@@ -41,20 +43,25 @@ export const ControlledInput = <
   });
 
   return (
-    <InputWrapper htmlFor={name} label={label} error={error}>
+    <InputWrapper
+      htmlFor={name}
+      label={label}
+      helperText={helperText}
+      error={error}
+    >
       <TextInput
         aria-describedby={`${name}-error`}
         aria-invalid={!!error}
-        color={!!error ? "failure" : "gray"}
+        color={!!error ? "failure" : "default"}
         disabled={disabled}
         id={name}
         name={name}
         onChange={onChange}
         placeholder={placeholder}
         ref={ref}
+        required={required}
         type={type}
         value={value}
-        helperText={helperText}
       />
     </InputWrapper>
   );
