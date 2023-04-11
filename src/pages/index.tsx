@@ -1,8 +1,9 @@
 import { type GetServerSidePropsContext, type NextPage } from "next";
 import Head from "next/head";
 import { signIn, signOut, useSession } from "next-auth/react";
-import { Button } from "flowbite-react";
+
 import { getServerAuthSession } from "~/server/auth";
+import { Button } from "~/components/Button";
 
 const Home: NextPage = () => {
   const { data: sessionData } = useSession();

@@ -40,11 +40,19 @@ export interface ButtonProps
 
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   (
-    { children, className, disabled = false, fullSized, size = "md", ...props },
+    {
+      children,
+      className,
+      disabled = false,
+      fullSized = false,
+      size = "md",
+      ...props
+    },
     ref
   ) => (
     <button
       disabled={disabled}
+      aria-disabled={disabled}
       className={classNames(
         disabled && theme.disabled,
         fullSized && theme.fullSized,

@@ -1,6 +1,8 @@
 import type { ComponentProps, FC } from "react";
 import Image from "next/image";
 import classNames from "classnames";
+import { AvatarGroup } from "~/components/Avatar/AvatarGroup";
+import { AvatarGroupCounter } from "~/components/Avatar/AvatarGroupCounter";
 
 type AvatarColors = "default";
 type AvatarSizes = "xs" | "sm" | "md" | "lg" | "xl";
@@ -69,7 +71,7 @@ const theme: AvatarTheme = {
   },
 };
 
-export const Avatar: FC<AvatarProps> = ({
+export const AvatarComponent: FC<AvatarProps> = ({
   alt = "",
   bordered = false,
   className,
@@ -139,4 +141,9 @@ export const Avatar: FC<AvatarProps> = ({
   );
 };
 
-Avatar.displayName = "Avatar";
+AvatarComponent.displayName = "Avatar";
+
+export const Avatar = Object.assign(AvatarComponent, {
+  Group: AvatarGroup,
+  Counter: AvatarGroupCounter,
+});

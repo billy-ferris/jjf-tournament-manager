@@ -1,23 +1,18 @@
 import { type FC } from "react";
-import { Dropdown, Navbar } from "flowbite-react";
-import { signOut, useSession } from "next-auth/react";
+import { useSession } from "next-auth/react";
 import Image from "next/image";
 import { MoonIcon, SunIcon } from "@heroicons/react/24/solid";
 
 import { useTheme } from "~/lib/theme";
 import { Avatar } from "~/components/Avatar";
+import { Navbar } from "~/components/NavBar";
 
 export const Navigation: FC = () => {
   const { data: sessionData, status } = useSession();
   const isLoading = status === "loading";
 
   return (
-    <Navbar
-      fluid={true}
-      theme={{
-        base: "absolute w-full bg-white px-5 py-5 dark:bg-gray-900",
-      }}
-    >
+    <Navbar>
       <Navbar.Brand href="/">
         <Image
           src="https://flowbite.com/docs/images/logo.svg"
@@ -28,25 +23,7 @@ export const Navigation: FC = () => {
       </Navbar.Brand>
       <div className="flex items-center gap-x-4 md:order-2">
         {sessionData?.user && !isLoading && (
-          <>
-            <Dropdown
-              arrowIcon={false}
-              inline={true}
-              label={
-                <Avatar img={sessionData.user.image || undefined} size="sm" />
-              }
-            >
-              <Dropdown.Header>
-                <span className="block text-sm">{sessionData.user.name}</span>
-                <span className="block truncate text-sm font-medium">
-                  {sessionData.user.email}
-                </span>
-              </Dropdown.Header>
-              <Dropdown.Item onClick={() => void signOut()}>
-                Sign out
-              </Dropdown.Item>
-            </Dropdown>
-          </>
+          <Avatar img={sessionData.user.image || undefined} size="sm" />
         )}
         <ThemeToggle />
       </div>

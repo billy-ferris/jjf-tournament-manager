@@ -96,7 +96,9 @@ const Onboarding: NextPage = () => {
                 placeholder="(123) 456-7890"
                 type="text"
               />
-              <Button type="submit">Looks good, continue!</Button>
+              <Button type="submit" fullSized>
+                Looks good, continue!
+              </Button>
             </div>
           )}
         </Form>
