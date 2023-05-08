@@ -1,4 +1,4 @@
-import { type User, Prisma } from "@prisma/client";
+import { Prisma } from "@prisma/client";
 import { z } from "zod";
 
 import {

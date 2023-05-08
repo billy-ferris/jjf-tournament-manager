@@ -6,7 +6,7 @@ import { getServerAuthSession } from "~/server/auth";
 import { Button } from "~/components/Button";
 
 const Home: NextPage = () => {
-  const { data: sessionData } = useSession();
+  const { data: session } = useSession();
 
   return (
     <>
@@ -16,16 +16,17 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <div className="container-sm flex flex-col items-center justify-center gap-12 px-4 py-16">
-        <div className="flex flex-col items-center gap-2">
+        <div className="flex flex-col items-center gap-2 dark:text-white">
+          {session && <pre>{JSON.stringify(session, null, 2)}</pre>}
           <Button
             size="lg"
             onClick={
-              sessionData
+              session
                 ? () => void signOut()
                 : () => void signIn("google", { callbackUrl: "/onboarding" })
             }
           >
-            {sessionData ? (
+            {session ? (
               "Sign out"
             ) : (
               <>

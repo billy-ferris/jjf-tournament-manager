@@ -8,7 +8,7 @@ import { Avatar } from "~/components/Avatar";
 import { Navbar } from "~/components/NavBar";
 
 export const Navigation: FC = () => {
-  const { data: sessionData, status } = useSession();
+  const { data: session, status } = useSession();
   const isLoading = status === "loading";
 
   return (
@@ -22,8 +22,8 @@ export const Navigation: FC = () => {
         />
       </Navbar.Brand>
       <div className="flex items-center gap-x-4 md:order-2">
-        {sessionData?.user && !isLoading && (
-          <Avatar img={sessionData.user.image || undefined} size="sm" />
+        {session?.user && !isLoading && (
+          <Avatar img={session.user.image || undefined} size="sm" />
         )}
         <ThemeToggle />
       </div>
