@@ -13,7 +13,7 @@ interface NavbarTheme {
 }
 
 const theme: NavbarTheme = {
-  base: "absolute w-full bg-white px-5 py-5 dark:bg-gray-900",
+  base: "w-full bg-white p-4 dark:bg-gray-900",
   inner: {
     base: "mx-auto flex flex-wrap items-center justify-between",
   },

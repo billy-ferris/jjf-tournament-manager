@@ -15,7 +15,7 @@ export const teamsRouter = createTRPCRouter({
         captainId: z.string().uuid(),
       })
     )
-    .query(
+    .mutation(
       async ({ ctx, input }): Promise<Team> =>
         await ctx.prisma.team.create({
           data: {

@@ -23,10 +23,12 @@ export const Layout: FC<{ children: ReactNode }> = ({ children }) => {
 
   return (
     <div className={classNames(theme === "dark" && "dark", "js-theme")}>
-      <Navigation />
-      <main className="flex min-h-screen flex-col items-center justify-center bg-gray-100 dark:bg-gray-800">
-        {children}
-      </main>
+      <div className="min-h-screen bg-gray-100 dark:bg-gray-800">
+        <Navigation />
+        <main className="flex flex-col items-center justify-center">
+          {children}
+        </main>
+      </div>
     </div>
   );
 };
