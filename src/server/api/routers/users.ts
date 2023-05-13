@@ -19,6 +19,7 @@ const defaultUserSelect = Prisma.validator<Prisma.UserSelect>()({
   email: true,
   image: true,
   phone: true,
+  teamId: true,
 });
 
 export const usersRouter = createTRPCRouter({
@@ -28,6 +29,7 @@ export const usersRouter = createTRPCRouter({
         select: defaultUserSelect,
       })
   ),
+
   getOne: publicProcedure.input(z.string().uuid()).query(
     async ({ ctx, input }) =>
       await ctx.prisma.user.findUniqueOrThrow({
@@ -35,6 +37,7 @@ export const usersRouter = createTRPCRouter({
         select: { ...defaultUserSelect, isOnboarded: true },
       })
   ),
+
   update: protectedProcedure
     .input(
       z
@@ -44,12 +47,14 @@ export const usersRouter = createTRPCRouter({
           email: z.string().min(1).email(),
           phone: z.string().min(1).regex(phoneRegExp),
           isOnboarded: z.boolean(),
+          teamId: z.string().uuid(),
         })
         .partial({
           name: true,
           email: true,
           phone: true,
           isOnboarded: true,
+          teamId: true,
         })
     )
     .mutation(

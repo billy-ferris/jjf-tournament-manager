@@ -40,15 +40,12 @@ const Onboarding: NextPage = () => {
   const router = useRouter();
   const ctx = api.useContext();
 
+  // TODO: extract to feature api directory
   const { mutateAsync } = api.users.update.useMutation({
-    onSuccess: () => {
-      // TODO: update user session object
-      void ctx.users.getOne.invalidate();
-    },
-    onError: (error) => {
-      // TODO: handle errors - Notification store? Toast?
-      console.error(error);
-    },
+    // TODO: update user session object
+    onSuccess: () => void ctx.users.getOne.invalidate(),
+    // TODO: handle errors - Custom notification store? Toast?
+    onError: (error) => console.error(error),
   });
 
   if (session) {
@@ -72,11 +69,11 @@ const Onboarding: NextPage = () => {
           </div>
           <Form<UserOnboardingData["data"], typeof schema>
             className="w-full"
-            id="oboarding-form"
+            id="user-onboarding-form"
             onSubmit={async (values) => {
-              console.log("submit_values", { values });
+              console.log("user-onboarding-form", { values });
               await mutateAsync(values);
-              void router.push("/");
+              void router.push(`${router.pathname}/teams`);
             }}
             options={{
               defaultValues: {

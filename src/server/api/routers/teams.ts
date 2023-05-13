@@ -24,6 +24,7 @@ export const teamsRouter = createTRPCRouter({
           },
         })
     ),
+
   getAll: publicProcedure.query(
     async ({ ctx }): Promise<Team[]> =>
       await ctx.prisma.team.findMany({
@@ -33,6 +34,7 @@ export const teamsRouter = createTRPCRouter({
         },
       })
   ),
+
   getOne: publicProcedure.input(z.string().uuid()).query(
     async ({ ctx, input }): Promise<Team> =>
       await ctx.prisma.team.findUniqueOrThrow({

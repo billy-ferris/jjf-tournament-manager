@@ -17,7 +17,6 @@ const Home: NextPage = () => {
       </Head>
       <div className="container-sm flex flex-col items-center justify-center gap-12 px-4 py-16">
         <div className="flex flex-col items-center gap-2 dark:text-white">
-          {session && <pre>{JSON.stringify(session, null, 2)}</pre>}
           <Button
             size="lg"
             onClick={
