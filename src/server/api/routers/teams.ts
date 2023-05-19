@@ -29,7 +29,6 @@ export const teamsRouter = createTRPCRouter({
     async ({ ctx }): Promise<Team[]> =>
       await ctx.prisma.team.findMany({
         include: {
-          captain: true,
           members: true,
         },
       })

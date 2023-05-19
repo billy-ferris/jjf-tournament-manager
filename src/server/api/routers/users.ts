@@ -11,6 +11,7 @@ import { phoneRegExp } from "~/utils/phoneRegExp";
 /**
  * Default selector for User.
  * It's important to always explicitly say which fields you want to return in order to not leak extra information
+ *
  * @see https://github.com/prisma/prisma/issues/9353
  */
 const defaultUserSelect = Prisma.validator<Prisma.UserSelect>()({
@@ -48,6 +49,7 @@ export const usersRouter = createTRPCRouter({
           phone: z.string().min(1).regex(phoneRegExp),
           isOnboarded: z.boolean(),
           teamId: z.string().uuid(),
+          teamName: z.string().min(1),
         })
         .partial({
           name: true,
@@ -55,16 +57,30 @@ export const usersRouter = createTRPCRouter({
           phone: true,
           isOnboarded: true,
           teamId: true,
+          teamName: true,
         })
     )
-    .mutation(
-      async ({ ctx, input }) =>
-        await ctx.prisma.user.update({
-          where: { id: input.id },
-          data: {
-            ...input,
+    .mutation(async ({ ctx, input }) => {
+      let updateInput: Prisma.UserUpdateInput = input;
+
+      if (input.teamName) {
+        const { teamName, ...userInput } = input;
+
+        updateInput = {
+          ...userInput,
+          team: {
+            create: {
+              name: teamName,
+              captainId: input.id,
+            },
           },
-          select: defaultUserSelect,
-        })
-    ),
+        };
+      }
+
+      return await ctx.prisma.user.update({
+        where: { id: input.id },
+        data: updateInput,
+        select: defaultUserSelect,
+      });
+    }),
 });

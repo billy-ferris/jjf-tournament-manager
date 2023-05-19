@@ -48,8 +48,8 @@ export const authOptions: NextAuthOptions = {
     // TODO: fix type errors for env variables
     GoogleProvider({
       clientId: env.GOOGLE_CLIENT_ID,
-      clientSecret: env.GOOGLE_CLIENT_SECRET
-    })
+      clientSecret: env.GOOGLE_CLIENT_SECRET,
+    }),
     /**
      * ...add more providers here.
      * @see https://next-auth.js.org/providers/github

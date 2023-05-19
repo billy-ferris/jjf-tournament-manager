@@ -62,8 +62,7 @@ model User {
 
   accounts Account[]
   sessions Session[]
-  team     Team?     @relation("members", fields: [teamId], references: [id])
-  Team     Team[]
+  team     Team?     @relation(fields: [teamId], references: [id])
 }
 
 model Team {
@@ -71,6 +70,5 @@ model Team {
   name      String
   captainId String @unique
 
-  captain User   @relation(fields: [captainId], references: [id])
-  members User[] @relation("members")
+  members User[]
 }

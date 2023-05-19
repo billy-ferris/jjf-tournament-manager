@@ -8,7 +8,7 @@ import {
 import { InputWrapper } from "./InputWrapper";
 import { TextInput } from "./TextInput";
 
-interface ControlledInputProps<
+interface ControlledTextInputProps<
   TFieldValues extends FieldValues = FieldValues,
   TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>
 > {
@@ -21,7 +21,7 @@ interface ControlledInputProps<
   type: string;
 }
 
-export const ControlledInput = <
+export const ControlledTextInput = <
   TFieldValues extends FieldValues = FieldValues,
   TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>
 >({
@@ -32,7 +32,7 @@ export const ControlledInput = <
   placeholder,
   required,
   type,
-}: ControlledInputProps<TFieldValues, TName>) => {
+}: ControlledTextInputProps<TFieldValues, TName>) => {
   const {
     field: { onChange, value, ref },
     fieldState: { error },

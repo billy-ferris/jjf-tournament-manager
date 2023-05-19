@@ -1,6 +1,7 @@
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const path = require("path");
 
+// TODO: prettier rules
 /** @type {import("eslint").Linter.Config} */
 const config = {
   overrides: [
@@ -21,14 +22,20 @@ const config = {
   plugins: ["@typescript-eslint"],
   extends: ["next/core-web-vitals", "plugin:@typescript-eslint/recommended"],
   rules: {
+    /*
+     * TODO: sort imports
+     * "sort-imports": ["error", {
+     *  allowSeparatedGroups: true,
+     * }],
+    */
     "@typescript-eslint/consistent-type-imports": [
       "warn",
       {
-        prefer: "type-imports",
-        fixStyle: "inline-type-imports",
+        "prefer": "type-imports",
+        "fixStyle": "inline-type-imports",
       },
     ],
-    "@typescript-eslint/no-unused-vars": ["warn", { argsIgnorePattern: "^_" }],
+    "@typescript-eslint/no-unused-vars": ["warn", { "argsIgnorePattern": "^_" }],
   },
 };
 
