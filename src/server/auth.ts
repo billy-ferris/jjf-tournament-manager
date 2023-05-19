@@ -16,10 +16,11 @@ import { prisma } from "~/server/db";
  * @see https://next-auth.js.org/getting-started/typescript#module-augmentation
  */
 declare module "next-auth" {
-  // TODO: add settings
   interface User {
     id: string;
-    // ...other properties
+    phone: string;
+    teamId: string;
+    isOnboarded: boolean;
   }
 
   interface Session extends DefaultSession {
@@ -37,15 +38,15 @@ export const authOptions: NextAuthOptions = {
     session({ session, user }) {
       if (session.user) {
         session.user.id = user.id;
-        // session.user.role = user.role; <-- put other properties on the session here
+        session.user.phone = user.phone;
+        session.user.teamId = user.teamId;
+        session.user.isOnboarded = user.isOnboarded;
       }
       return session;
     },
   },
-  // TODO: create custom adapter
   adapter: PrismaAdapter(prisma),
   providers: [
-    // TODO: fix type errors for env variables
     GoogleProvider({
       clientId: env.GOOGLE_CLIENT_ID,
       clientSecret: env.GOOGLE_CLIENT_SECRET,

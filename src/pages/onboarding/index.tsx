@@ -187,7 +187,8 @@ export default Onboarding;
 
 export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
   const session = await getServerAuthSession(ctx);
-  if (!session) {
+
+  if (!session || session.user.isOnboarded) {
     return {
       redirect: {
         destination: "/",
