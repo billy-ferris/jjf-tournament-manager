@@ -31,6 +31,16 @@ export const usersRouter = createTRPCRouter({
       })
   ),
 
+  getAllByTeamId: publicProcedure.input(z.string().uuid()).query(
+    async ({ ctx, input }) =>
+      await ctx.prisma.user.findMany({
+        where: {
+          teamId: input,
+        },
+        select: defaultUserSelect,
+      })
+  ),
+
   getOne: publicProcedure.input(z.string().uuid()).query(
     async ({ ctx, input }) =>
       await ctx.prisma.user.findUniqueOrThrow({

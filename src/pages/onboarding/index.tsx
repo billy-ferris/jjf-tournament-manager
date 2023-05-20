@@ -87,7 +87,7 @@ const Onboarding: NextPage = () => {
           <meta name="description" content="Onboarding" />
           <link rel="icon" href="/favicon.ico" />
         </Head>
-        <div className="container-sm flex min-w-[380px] flex-col justify-center gap-6 px-4 py-16">
+        <div className="container-sm flex min-w-[380px] flex-col justify-center gap-6 px-4 py-12">
           <Avatar img={session.user.image || undefined} size="lg" />
           <div className="text-center">
             <h1 className="pb-2 text-xl font-medium leading-tight text-gray-900 dark:text-white">

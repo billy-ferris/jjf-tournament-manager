@@ -6,6 +6,7 @@ export default function Document() {
     <Html lang="en">
       <Head>
         <Script src="/theme.js" strategy="beforeInteractive" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
       <body>
         <Main />
